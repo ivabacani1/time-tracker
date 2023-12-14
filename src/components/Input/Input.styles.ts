@@ -4,8 +4,6 @@ import styled, { css } from "styled-components";
 export const InputContainer = styled.div`
   width: 100%;
   .p-inputtext {
-    width: 100%;
-    border-radius: 3px;
     &:focus,
     &:hover {
       box-shadow: none;

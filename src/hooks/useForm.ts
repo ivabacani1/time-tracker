@@ -1,3 +1,4 @@
+import { clear } from "console";
 import { FormEvent, useCallback, useState } from "react";
 
 type FormValidator<T extends Record<keyof T, unknown>> = Partial<

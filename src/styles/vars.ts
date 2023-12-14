@@ -6,6 +6,7 @@ export const vars = {
     whiteLilac: "#F9F9FD",
     ebony: "#0C0D25",
     whisper: "#ecedf5",
+    lynch: "#5F6B8A",
   },
   fonts: {
     fontSize: "1.6rem",

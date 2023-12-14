@@ -1,44 +1,12 @@
-import { Flex } from "@/components/shared/Flex/Flex.styles";
 import { RegisterUserIcon } from "@/components/shared/icons";
 import { vars } from "@/styles/vars";
 import { Card } from "primereact/card";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
-export const Form = styled.form`
-  span {
-    width: 100%;
-  }
-
-  .p-button {
-    margin-top: 20px;
-    width: 100%;
-    background: ${vars.colors.orange};
-    text-align: center;
-    display: flex;
-    justify-content: center;
-  }
-`;
-
-export const SignInCardContainer = styled(Card)`
-  width: 400px;
-
-  .p-card-body {
-    padding: 44px 35px 60px;
-  }
-
-  .p-card-title {
-    font-size: 24px;
-    color: ${vars.colors.ebony};
-    display: flex;
-    justify-content: center;
-  }
-`;
-
-export const SignInContainer = styled(Flex)`
-  margin-top: 70px;
-`;
+import Link from "next/link";
 
 export const RegisterHereCard = styled(Card)`
+  width: 400px;
   overflow: hidden;
 
   .p-card-body {
@@ -48,4 +16,15 @@ export const RegisterHereCard = styled(Card)`
 export const RegisterUser = styled(RegisterUserIcon)`
   position: relative;
   bottom: 10px;
+`;
+
+export const Text = styled.p`
+  color: ${vars.colors.lynch};
+  font-weight: 600;
+`;
+
+export const StyledLink = styled(Link)`
+  font-size: 14px;
+  top: -6px;
+  position: relative;
 `;

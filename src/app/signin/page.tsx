@@ -1,18 +1,17 @@
 "use client";
 
-import { PageWrap } from "@/components/shared/PageWrap/PageWrap";
+import { PageContainer } from "@/components/shared/PageContainer/PageContainer";
 import { signIn } from "next-auth/react";
 
 import { Flex } from "@/components/shared/Flex/Flex.styles";
 import { useForm } from "@/hooks/useForm";
 import { validateEmail, validatePasswordSignInForm } from "@/utils/validators";
-import { Button } from "primereact/button";
 import { vars } from "@/styles/vars";
 
 import * as Styled from "./signin.styles";
 import Input from "@/components/Input/Input";
-
-import Link from "next/link";
+import { InputCredentialsContainer } from "@/components/InputCredentialsContainer/InputCredentialsContainer";
+import Button from "@/components/Button/Button";
 
 export interface UserType {
   email: string;
@@ -41,18 +40,21 @@ export default function Signin() {
   }
 
   return (
-    <PageWrap>
-      <Styled.SignInContainer $gap={30} $column>
-        <Styled.SignInCardContainer title="Login">
-          <Styled.Form onSubmit={handleFormSubmit} noValidate>
+    <>
+      <PageContainer>
+        <Flex $column $gap={30} $alignItems="center">
+          <InputCredentialsContainer
+            handleFormSubmit={handleFormSubmit}
+            title="Login"
+          >
             <Flex $alignItems="center" $column $gap={30}>
               <Input
                 name="email"
                 value={formState.email}
                 onChange={handleChange}
                 label="Email"
-                isError={Boolean(formError.password)}
-                errorMessage={formError.password?.message}
+                isError={Boolean(formError.email)}
+                errorMessage={formError.email?.message}
               />
 
               <Input
@@ -61,31 +63,32 @@ export default function Signin() {
                 onChange={handleChange}
                 label="Password"
                 isError={Boolean(formError.password)}
-                errorMessage={formError.email?.message}
+                errorMessage={formError.password?.message}
                 isPassword
               />
 
               <Button
                 type="submit"
                 disabled={!formState.email || !formState.password}
-                color={vars.colors.orange}
-              >
-                Sign in
-              </Button>
+                label="Login"
+                fullWidth
+              />
             </Flex>
-          </Styled.Form>
-        </Styled.SignInCardContainer>
+          </InputCredentialsContainer>
 
-        <Styled.RegisterHereCard>
-          <Flex $gap={34} style={{ maxHeight: "47px" }}>
-            <Styled.RegisterUser width={95} height={95} />
-            <div>
-              <p>Need an account?</p>
-              <Link href="/signup">Register here</Link>
-            </div>
-          </Flex>
-        </Styled.RegisterHereCard>
-      </Styled.SignInContainer>
-    </PageWrap>
+          <Styled.RegisterHereCard>
+            <Flex $gap={34} style={{ maxHeight: "47px" }}>
+              <Styled.RegisterUser width={95} height={95} />
+              <div>
+                <Styled.Text>Need an account?</Styled.Text>
+                <Styled.StyledLink href="/signup">
+                  Register here
+                </Styled.StyledLink>
+              </div>
+            </Flex>
+          </Styled.RegisterHereCard>
+        </Flex>
+      </PageContainer>
+    </>
   );
 }
