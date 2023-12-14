@@ -2,7 +2,7 @@ import Navigation from "@/components/Navigation/Navigation";
 import SessionProvider from "@/lib/Providers/SessionProvider";
 import { PrimeReactProvider } from "primereact/api";
 
-import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "../../prime-react-theme/theme.css";
 import "primeflex/primeflex.css";
 import "primereact/resources/primereact.css";
 

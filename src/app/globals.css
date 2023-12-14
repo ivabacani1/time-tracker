@@ -12,6 +12,8 @@
 
 html,
 body {
+  overflow: auto;
+  min-height: 100vh;
   padding: 0;
   margin: 0;
   font-family: "Nunito Sans";
@@ -26,35 +28,9 @@ a {
   font-family: "Nunito Sans";
 }
 
-p {
+p,
+h3 {
   margin: 0;
-}
-
-.p-button-label {
-  font-weight: 500;
-}
-
-.p-button {
-  border-radius: 3px;
-  border: 1px solid transparent;
-  &:focus {
-    box-shadow: none;
-  }
-}
-
-.p-card {
-  background: var(--whiteLilac);
-  border: 1px solid var(--whisper);
-  box-shadow: none;
-}
-
-.p-card-content {
-  padding: 0;
-}
-
-.p-inputtext {
-  border-radius: 3px;
-  border: 1px solid transparent;
 }
 
 * {
