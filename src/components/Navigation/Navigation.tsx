@@ -11,6 +11,7 @@ import NavItem, { NavItemProps } from "./NavItem.tsx";
 import * as Icon from "../shared/icons.ts";
 import { Flex } from "../shared/Flex/Flex.styles.ts";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 export default function Navigation() {
   const pathname = usePathname();
@@ -20,8 +21,16 @@ export default function Navigation() {
   return (
     <>
       <Styled.Navigation>
-        <Styled.Logo src={DevotLogo} alt="Devot logo" width={162} height={44} />
-
+        <Flex $gap={9} style={{ marginTop: "34px", marginBottom: "34px" }}>
+          <Image
+            src={DevotLogo}
+            alt="Devot logo"
+            width={162}
+            height={44}
+            priority
+          />
+          <Styled.Title $alignItems="center">Tracking tool</Styled.Title>
+        </Flex>
         {session.data?.user ? (
           <Flex>
             {navigationItems(pathname).map((item) => {

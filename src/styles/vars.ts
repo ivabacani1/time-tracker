@@ -4,8 +4,10 @@ export const vars = {
     orange: "#ff5722",
     ghost: "#c4c5d7",
     whiteLilac: "#F9F9FD",
+    white: "#FFF",
     ebony: "#0C0D25",
     whisper: "#ecedf5",
+    lynch: "#5F6B8A",
   },
   fonts: {
     fontSize: "1.6rem",

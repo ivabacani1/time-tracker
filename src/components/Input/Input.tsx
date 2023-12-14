@@ -41,7 +41,7 @@ export default function Input({
             />
           ) : (
             <InputText
-              name="email"
+              name={name}
               value={value}
               onChange={onChange}
               className={isError ? "p-invalid" : undefined}

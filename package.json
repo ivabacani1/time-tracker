@@ -12,6 +12,7 @@
     "@svgr/webpack": "^8.1.0",
     "@types/next": "^9.0.0",
     "babel-loader": "^9.1.3",
+    "date-fns": "^2.30.0",
     "file-loader": "^6.2.0",
     "firebase": "^10.7.1",
     "framer-motion": "^10.16.16",
