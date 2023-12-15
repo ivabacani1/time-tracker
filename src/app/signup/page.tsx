@@ -12,6 +12,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/lib/firebase/config";
 import { InputCredentialsContainer } from "@/components/InputCredentialsContainer/InputCredentialsContainer";
 import Button from "@/components/Button/Button";
+import { useRouter } from "next/navigation";
 
 export interface UserType {
   email: string;
@@ -24,15 +25,17 @@ const validators = {
 };
 
 export default function Signup() {
-  const { handleFormChange, formState, formError, handleFormSubmit, setError } =
+  const router = useRouter();
+  const { handleFormChange, formState, formError, handleFormSubmit } =
     useForm<UserType>({
       initialState: { email: "", password: "" },
-      onSubmit: () =>
+      onSubmit: () => {
         createUserWithEmailAndPassword(
           auth,
           formState.email,
           formState.password
-        ),
+        ).then(() => router.push("/signin"));
+      },
       validators,
     });
 
@@ -52,8 +55,8 @@ export default function Signup() {
             value={formState.email}
             onChange={handleChange}
             label="Email"
-            isError={Boolean(formError.password)}
-            errorMessage={formError.password?.message}
+            isError={Boolean(formError.email)}
+            errorMessage={formError.email?.message}
           />
 
           <Input
