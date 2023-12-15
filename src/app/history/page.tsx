@@ -12,9 +12,9 @@ import Loader from "@/components/shared/Loader/Loader";
 
 import { Stopwatch } from "@/models/stopwatch.model";
 import { useHistoryData } from "@/hooks/useHistoryData";
-import StartNewWatchDialog from "../trackers/StartNewWatchDialog";
 
 import { Table } from "./history.styles";
+import StopWatchDialog from "@/components/StopwatchDialog/StopwatchDialog";
 
 export default function Trackers() {
   const [openStartDialog, setOpenStartDialog] = useState(false);
@@ -41,9 +41,11 @@ export default function Trackers() {
               <h3>{`Trackers history`}</h3>
             </Flex>
 
+            {/* later - add filter input fields */}
+
             {isFetchingStopwatches ? (
               <Flex
-                style={{ minHeight: "100%" }}
+                style={{ minHeight: "50vh" }}
                 $justifyContent="center"
                 $alignItems="center"
               >
@@ -97,7 +99,7 @@ export default function Trackers() {
           </Flex>
         </PageContentContainer>
       </PageContainer>
-      <StartNewWatchDialog
+      <StopWatchDialog
         selectedStopWatch={selectedStopwatch}
         isOpen={openStartDialog}
         setIsOpen={setOpenStartDialog}

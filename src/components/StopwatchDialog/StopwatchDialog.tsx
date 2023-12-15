@@ -17,7 +17,7 @@ interface StopWatchDialogProps {
   setSelectedStopWatch?: (stopwatch?: Stopwatch) => void;
 }
 
-export default function StartNewWatchDialog({
+export default function StopWatchDialog({
   isOpen,
   setIsOpen,
   handleOnChange,

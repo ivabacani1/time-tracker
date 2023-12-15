@@ -1,9 +1,13 @@
 import { vars } from "@/styles/vars";
-import Image from "next/image";
 import styled, { css } from "styled-components";
+import { Flex } from "../shared/Flex/Flex.styles";
+import Link from "next/link";
 
-export const Logo = styled(Image)`
-  margin: 34px 0px;
+export const Title = styled(Flex)`
+  color: ${vars.colors.whiteLilac};
+  font-size: 24px;
+  font-weight: 700;
+  padding-top: 8px;
 `;
 
 export const Navigation = styled.div`
@@ -13,14 +17,19 @@ export const Navigation = styled.div`
   background-color: ${vars.colors.portGore};
   padding: 0 34px;
   border-radius: 0px 0px 22px 22px;
-  max-height: 112px;
+`;
 
-  > div {
-    height: 112px;
+export const StyledLink = styled(Link)`
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+  .p-button {
+    max-width: 92px;
+    padding: 0;
   }
 `;
 
-export const NavItem = styled.div<{ $active?: boolean }>`
+export const NavItem = styled.div<{ $active?: boolean; $isButton?: boolean }>`
   display: flex;
   flex-direction: column;
   padding-top: 10px;
@@ -28,6 +37,12 @@ export const NavItem = styled.div<{ $active?: boolean }>`
   .p-button-label {
     display: flex;
     margin-top: 4px;
+    ${({ $isButton }) =>
+      $isButton &&
+      css`
+        bottom: 3px;
+        position: relative;
+      `}
   }
   .p-button {
     height: 100%;
@@ -41,6 +56,12 @@ export const NavItem = styled.div<{ $active?: boolean }>`
       margin-right: 8px;
       width: 24px;
       height: 24px;
+      bottom: 0;
+      ${({ $isButton }) =>
+        $isButton &&
+        css`
+          bottom: 2px;
+        `}
       path {
         stroke: ${vars.colors.ghost};
       }
@@ -73,7 +94,7 @@ export const NavItem = styled.div<{ $active?: boolean }>`
   svg {
     position: relative;
     height: 5px;
-    bottom: -1.5px;
+    bottom: -28px;
 
     path {
       fill: ${vars.colors.ghost};
