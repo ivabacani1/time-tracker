@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Button } from "primereact/button";
 
 import * as Styled from "./Navigation.styles";
@@ -23,16 +22,16 @@ export default function NavItem({
   if (to) {
     return (
       <Styled.NavItem $active={active}>
-        <Link style={{ height: "100%" }} href={to}>
+        <Styled.StyledLink style={{ height: "100%" }} href={to}>
           <Button icon={icon} label={label} />
-        </Link>
+        </Styled.StyledLink>
 
         {bottomIcon}
       </Styled.NavItem>
     );
   }
   return (
-    <Styled.NavItem>
+    <Styled.NavItem $isButton>
       <Button label={label} onClick={handleClick} icon={icon} />
     </Styled.NavItem>
   );

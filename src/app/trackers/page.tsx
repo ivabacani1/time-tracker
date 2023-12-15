@@ -19,11 +19,11 @@ import { Column } from "primereact/column";
 import { PageContentContainer } from "@/components/shared/PageContainer/PageContentContainer";
 import { useStopwatchCollection } from "@/hooks/useStopWatchCollection";
 import Loader from "@/components/shared/Loader/Loader";
-import StartNewWatchDialog from "./StartNewWatchDialog";
 import { Buttons, Table } from "./trackers.styles";
 import { Stopwatch } from "@/models/stopwatch.model";
 import Button from "@/components/Button/Button";
 import { vars } from "@/styles/vars";
+import StopWatchDialog from "@/components/StopwatchDialog/StopwatchDialog";
 
 export default function Trackers() {
   const [openStartDialog, setOpenStartDialog] = useState(false);
@@ -70,7 +70,7 @@ export default function Trackers() {
 
             {isFetchingStopwatches ? (
               <Flex
-                style={{ minHeight: "100%" }}
+                style={{ minHeight: "50vh" }}
                 $justifyContent="center"
                 $alignItems="center"
               >
@@ -122,7 +122,7 @@ export default function Trackers() {
           </Flex>
         </PageContentContainer>
       </PageContainer>
-      <StartNewWatchDialog
+      <StopWatchDialog
         selectedStopWatch={selectedStopwatch}
         isOpen={openStartDialog}
         setIsOpen={setOpenStartDialog}
