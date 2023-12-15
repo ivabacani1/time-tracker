@@ -12,4 +12,7 @@ export const Table = styled(DataTable)`
   .p-datatable-wrapper {
     min-height: 43vh;
   }
+  svg {
+    cursor: pointer;
+  }
 `;
