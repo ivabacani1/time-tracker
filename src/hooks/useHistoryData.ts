@@ -1,8 +1,12 @@
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { db } from "../lib/firebase/config";
-import { Stopwatch } from "../models/stopwatch.model";
+import { Stopwatch, StopwatchStatus } from "../models/stopwatch.model";
+import {
+  handleDeleteStopwatch,
+  handleEditStopwatch,
+} from "@/app/utils/stopWatchFunctions";
 
 export const useHistoryData = () => {
   const { data } = useSession();
@@ -41,7 +45,7 @@ export const useHistoryData = () => {
           userEmail,
           "stopwatches"
         ),
-        orderBy("start", "desc")
+        where("status", "==", StopwatchStatus.STOPPED)
       );
 
       const querySnapshot = await getDocs(q);
@@ -73,6 +77,25 @@ export const useHistoryData = () => {
     }
   };
 
+  const editStopwatch = async (description: string, id?: string) => {
+    if (!id) return;
+    await handleEditStopwatch(id, description, data?.user?.email);
+    setAllStopwatches((prevState) => {
+      const index = prevState.findIndex((item) => item.id === id);
+
+      if (index === -1) return prevState;
+
+      const newItems = [...prevState];
+      newItems[index] = { ...newItems[index], description: description };
+      return newItems;
+    });
+  };
+
+  const deleteStopwatch = async (id: string) => {
+    await handleDeleteStopwatch(id, data?.user?.email);
+    setAllStopwatches((prevState) => prevState.filter((st) => st.id !== id));
+  };
+
   useEffect(() => {
     const fetchAll = async () => {
       if (data?.user) await handleGetAllStopwatches(data?.user?.email);
@@ -82,6 +105,8 @@ export const useHistoryData = () => {
 
   return {
     allStopwatches,
+    handleEditStopwatch: editStopwatch,
+    handleDeleteStopwatch: deleteStopwatch,
     // historyDate,
     // filteredStopwatches,
     // handleSetHistoryDate,

@@ -8,6 +8,7 @@ import "primereact/resources/primereact.css";
 
 import "./globals.css";
 import StyledComponentsRegistry from "@/lib/Registry/Registry";
+import { Flex } from "@/components/shared/Flex/Flex.styles";
 
 export const metadata = {
   title: "Time tracker",
