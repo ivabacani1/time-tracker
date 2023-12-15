@@ -19,22 +19,19 @@ export const Flex = styled.div<{
     css`
       flex-direction: column;
     `}
-
   ${({ $gap }) =>
     $gap &&
     css`
       gap: ${$gap}px;
     `}
-
     ${({ $justifyContent }) =>
     $justifyContent &&
     css`
       justify-content: ${$justifyContent};
     `}
-
     ${({ $alignItems }) =>
     $alignItems &&
     css`
       align-items: ${$alignItems};
-    `}
+    `};
 `;

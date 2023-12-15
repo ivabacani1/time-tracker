@@ -8,5 +8,5 @@ export const StyledPageContainer = styled(Flex)`
 `;
 
 export const StyledContentContainer = styled.div`
-  max-width: 80vw;
+  min-width: 80vw;
 `;

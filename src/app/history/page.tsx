@@ -3,27 +3,18 @@
 import React, { Suspense, useState } from "react";
 
 import { PageContainer } from "@/components/shared/PageContainer/PageContainer";
-import { addSeconds, format } from "date-fns";
+import { addSeconds, format, isValid } from "date-fns";
 import { Flex } from "@/components/shared/Flex/Flex.styles";
-import {
-  CalendarIcon,
-  StartNewIcon,
-  StopIcon,
-  TrashIcon,
-  EditIcon,
-  PauseIcon,
-  StartIcon,
-  StopAllIcon,
-} from "@/components/shared/icons";
+import { TrashIcon, EditIcon } from "@/components/shared/icons";
 import { Column } from "primereact/column";
 import { PageContentContainer } from "@/components/shared/PageContainer/PageContentContainer";
-import { useStopwatchCollection } from "@/hooks/useStopWatchCollection";
 import Loader from "@/components/shared/Loader/Loader";
-import StartNewWatchDialog from "./StartNewWatchDialog";
-import { Buttons, Table } from "./trackers.styles";
+
 import { Stopwatch } from "@/models/stopwatch.model";
-import Button from "@/components/Button/Button";
-import { vars } from "@/styles/vars";
+import { useHistoryData } from "@/hooks/useHistoryData";
+import StartNewWatchDialog from "../trackers/StartNewWatchDialog";
+
+import { Table } from "./history.styles";
 
 export default function Trackers() {
   const [openStartDialog, setOpenStartDialog] = useState(false);
@@ -31,42 +22,24 @@ export default function Trackers() {
     Stopwatch | undefined
   >(undefined);
   const {
-    handleCreateStopwatch,
-    stopwatches,
-    activeStopwatchId,
-    handlePauseStopwatch,
-    handleContinueStopwatch,
-    handleStopStopwatch,
+    allStopwatches,
     isFetchingStopwatches,
     handleEditStopwatch,
     handleDeleteStopwatch,
-    handleStopAllStopwatches,
-  } = useStopwatchCollection();
+  } = useHistoryData();
 
   return (
     <>
       <PageContainer>
         <PageContentContainer>
-          <Flex $column $justifyContent="start">
-            <Flex $gap={16} $alignItems="center">
-              <CalendarIcon />
-              <h3>{`Today (${format(new Date(), "dd.MM.yyyy")})`}</h3>
+          <Flex $column $justifyContent="start" style={{ minHeight: "100%" }}>
+            <Flex
+              $gap={16}
+              $alignItems="center"
+              style={{ marginBottom: "53px" }}
+            >
+              <h3>{`Trackers history`}</h3>
             </Flex>
-
-            <Buttons $justifyContent="flex-end" $gap={15}>
-              <Button
-                icon={<StartNewIcon />}
-                label="Start new timer"
-                onClick={() => setOpenStartDialog(true)}
-              />
-
-              <Button
-                icon={<StopAllIcon />}
-                label="Stop all"
-                onClick={handleStopAllStopwatches}
-                color={vars.colors.portGore}
-              />
-            </Buttons>
 
             {isFetchingStopwatches ? (
               <Flex
@@ -79,7 +52,7 @@ export default function Trackers() {
             ) : (
               <Suspense fallback={<Loader />}>
                 <Table
-                  value={stopwatches}
+                  value={allStopwatches}
                   paginator // add server pagination later so fetching is happening on page change
                   rows={6}
                   tableStyle={{
@@ -89,30 +62,32 @@ export default function Trackers() {
                   showGridlines
                 >
                   <Column
-                    style={{ width: "25%" }}
+                    style={{ width: "20%" }}
+                    field="date"
+                    header="Date"
+                    body={DateBodyTemplate}
+                  />
+                  <Column
+                    style={{ width: "50%" }}
+                    field="description"
+                    header="Description"
+                  />
+                  <Column
+                    style={{ width: "15%" }}
                     field="logged"
                     header="Time logged"
                     body={LoggedBodyTemplate}
                   />
                   <Column
-                    style={{ width: "55%" }}
-                    field="description"
-                    header="Description"
-                  />
-                  <Column
-                    style={{ width: "20%" }}
+                    style={{ width: "15%" }}
                     field="actions"
                     header="Actions"
                     body={(rowData) =>
                       ActionsBodyTemplate(
                         rowData,
-                        handlePauseStopwatch,
-                        handleContinueStopwatch,
-                        handleStopStopwatch,
                         handleDeleteStopwatch,
                         setSelectedStopwatch,
-                        setOpenStartDialog,
-                        activeStopwatchId
+                        setOpenStartDialog
                       )
                     }
                   />
@@ -126,13 +101,19 @@ export default function Trackers() {
         selectedStopWatch={selectedStopwatch}
         isOpen={openStartDialog}
         setIsOpen={setOpenStartDialog}
-        handleOnChange={
-          selectedStopwatch ? handleEditStopwatch : handleCreateStopwatch
-        }
+        handleOnChange={handleEditStopwatch}
       />
     </>
   );
 }
+
+const DateBodyTemplate = (rowData: Stopwatch) => {
+  const fireBaseTime = new Date(
+    rowData.start.seconds * 1000 + rowData.start.nanoseconds / 1000000
+  );
+
+  if (isValid(fireBaseTime)) return format(fireBaseTime, "dd.MM.yyyy");
+};
 
 const LoggedBodyTemplate = (rowData: Stopwatch) => {
   const today = new Date();
@@ -142,22 +123,12 @@ const LoggedBodyTemplate = (rowData: Stopwatch) => {
 
 const ActionsBodyTemplate = (
   stopwatch: Stopwatch,
-  handlePauseStopwatch: (id: string) => void,
-  handleContinueStopwatch: (id: string) => void,
-  handleStopStopwatch: (id: string) => void,
   handleDeleteStopwatch: (id: string) => void,
-  setSelectedStopwatch: (stopwatch?: Stopwatch) => void,
-  setOpenStartDialog: (open: boolean) => void,
-  activeStopwatchId?: string
+  setSelectedStopwatch: (stopwatch: Stopwatch) => void,
+  setOpenStartDialog: (open: boolean) => void
 ) => {
   return (
     <Flex $gap={15} style={{ maxWidth: "150px" }}>
-      {stopwatch.id === activeStopwatchId ? (
-        <PauseIcon onClick={() => handlePauseStopwatch(stopwatch.id)} />
-      ) : (
-        <StartIcon onClick={() => handleContinueStopwatch(stopwatch.id)} />
-      )}
-      <StopIcon onClick={() => handleStopStopwatch(stopwatch.id)} />
       <EditIcon
         onClick={() => {
           setOpenStartDialog(true);
